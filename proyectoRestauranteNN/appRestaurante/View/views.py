@@ -32,12 +32,16 @@ class Clasificacion():
         print('***')
         print(request.body)
         print('***')
-        body = json.loads(request.body.decode('utf-8'))
+        print('Leer comentario')
+        print(request.POST.get('COMENTARIO'))
+        #body = json.loads(request.body.decode('utf-8'))
+        #print('Leer body')        
+        #print(body)
         #Formato de datos de entrada
-        comentario = str(body.get("COMENTARIO"))
+        #comentario = str(body.get("COMENTARIO"))
         print('***')
-        print(comentario)   
-        resul=modeloSNN.modeloSNN.predict(comentario)
+        #print(comentario)   
+        resul=modeloSNN.modeloSNN.predict(modeloSNN.modeloSNN,request.POST.get('COMENTARIO'))
         data = {'result': resul}
         resp=JsonResponse(data)
         resp['Access-Control-Allow-Origin'] = '*'
