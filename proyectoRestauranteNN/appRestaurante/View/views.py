@@ -13,9 +13,10 @@ class Clasificacion():
     @api_view(['GET','POST'])
     def predecir(request):
         try:
+            print("Ingresa a predecir")
             #Formato de datos de entrada
             comentario = int(request.POST.get('COMENTARIO'))
-            
+            print(comentario)
             #Consumo de la lógica para predecir si se aprueba o no el crédito
             resul=modeloSNN.modeloSNN.predict(comentario)
         except:

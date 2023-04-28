@@ -90,7 +90,9 @@ ROOT_URLCONF = "proyectoRestauranteNN.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+                'C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/appRestaurante/Template'
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
