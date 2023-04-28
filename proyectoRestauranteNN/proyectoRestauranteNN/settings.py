@@ -37,11 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "appRestaurantePrediccion.apps.AppRestaurantePrediccionConfig",
+    "appRestaurante.apps.AppRestauranteConfig",
     'rest_framework',
     'corsheaders',
-    'drf_yasg',
-    'polls'
+    'drf_yasg'
 ]
 
 

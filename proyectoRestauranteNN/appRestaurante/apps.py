@@ -1,4 +1,4 @@
 from django.apps import AppConfig
 
-class AppRestaurantePrediccion(AppConfig):
-    name = 'appRestaurantePrediccion' #nombre de la app
+class AppRestauranteConfig(AppConfig):
+    name = 'appRestaurante' #nombre de la app
