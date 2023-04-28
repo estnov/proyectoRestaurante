@@ -15,10 +15,13 @@ class Clasificacion():
         try:
             print("Ingresa a predecir")
             #Formato de datos de entrada
-            comentario = int(request.POST.get('COMENTARIO'))
+            print("")
+            print(request.POST)
+            print(request.POST.get('COMENTARIO'))
+            comentario = str(request.POST.get('COMENTARIO'))
             print(comentario)
             #Consumo de la lógica para predecir si se aprueba o no el crédito
-            resul=modeloSNN.modeloSNN.predict(comentario)
+            resul=modeloSNN.modeloSNN.predict(modeloSNN.modeloSNN,comentario)
         except:
             resul='Datos inválidos'
         return render(request, "informe.html",{"e":resul})
@@ -32,7 +35,8 @@ class Clasificacion():
         body = json.loads(request.body.decode('utf-8'))
         #Formato de datos de entrada
         comentario = str(body.get("COMENTARIO"))
-        print(comentario)
+        print('***')
+        print(comentario)   
         resul=modeloSNN.modeloSNN.predict(comentario)
         data = {'result': resul}
         resp=JsonResponse(data)

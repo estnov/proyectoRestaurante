@@ -24,82 +24,36 @@ import pandas as pd
 print('Librerias importadas')
 
 class modeloSNN():
-    def cargarPipeline(nombreArchivo):
+    def cargarPipeline(self,nombreArchivo):
         with open(nombreArchivo+'.pickle', 'rb') as handle:
             pipeline = pickle.load(handle)
         print('Picke cargado correctamente')
         return pipeline
 
-    def cargarRNN(nombreArchivo):
+    def cargarRNN(self,nombreArchivo):
+        print('Intentando leer la red neuronal desde el archivo')
         model = load_model(nombreArchivo+'.h5')    
         print("Red Neuronal Cargada desde Archivo") 
         return model
+   
     
-    def generarStopWords():
-        ##Creating a list of stop words and adding custom stopwords
-        stop_words = set(stopwords.words('spanish'))
-        ##Creating a list of custom stopwords
-        new_words = ['pastas','filo','amigas','amigos']
-        stop_words = stop_words.union(new_words)
-        return stop_words
-
-    stop = generarStopWords()
-    porter = PorterStemmer()
-
-    def normalize(s):
-        replacements = (
-            ("á", "a"),
-            ("é", "e"),
-            ("í", "i"),
-            ("ó", "o"),
-            ("ú", "u"),
-            ("à", "a"),
-            ("è", "e"),
-            ("ì", "i"),
-            ("ò", "o"),
-            ("ù", "u"),
-            ("ñ", "n"),
-        )
-        for a, b in replacements:
-            s = s.replace(a, b).replace(a.upper(), b.upper())
-        return s
-
-    def preprocessor(text):#tokenizer
-        #text = re.sub('[^a-zA-z0-9ñ\s]','',text)
-        text=re.sub("&lt;/?.*?&gt;"," &lt;&gt; ",text) #remove tags
-        text = re.sub('<[^>]*>', '', text)
-        emoticons = re.findall('(?::|;|=)(?:-)?(?:\)|\(|D|P)', text.lower())
-        text = re.sub('[\W]+', ' ', text.lower()) + ' '.join(emoticons).replace('-', '')
+    def predict(self,datos_entrada):
+        df = pd.DataFrame(columns=['text'])
+        df.loc[0] = datos_entrada
         
-        text = normalize(text)
-        
-        text = ''.join([c if c not in punctuation else ' '+c+' ' \
-                        for c in text]).lower()    
-        #text=re.sub("(\\d|\\W)+"," ",text) # remove special characters and digits
-        ##Stemming
-        text = text.split()
-        #ps=PorterStemmer()
-        #Lemmatisation
-        lem = WordNetLemmatizer()
-        text = [lem.lemmatize(word) for word in text if not word in  
-                stop]
-        tokenized = " ".join(text)
-        return tokenized
-    
-    
-    model = cargarRNN("C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/redNN65")
-    tokenizer = cargarPipeline('C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/tokenizer')
-    
-    
-    def predict(datos_entrada):
-        
-        model = cargarRNN('C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/redNN65')
-        tokenizer = cargarPipeline('C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/tokenizer')
-    
-        datos_entrada['text'] = datos_entrada['text'].apply(preprocessor)
+        print("Prediciendo con los datos de entrada")
+        model = load_model("C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/redNN65.h5")
+        print("RNN cargada")
+        with open('C:/Users/esteb/OneDrive - Universidad Politecnica Salesiana/7mo ciclo/Aprendizaje automatico/Practica 1/Libros/Django/proyectoRestaurante/proyectoRestauranteNN/Recursos/tokenizer.pickle', 'rb') as handle:
+            pipeline = pickle.load(handle)
+        print('Picke cargado correctamente')
+        tokenizer = pipeline
+        print("Tokenizer cargado")
+        print('Creado el dataframe de entrada')
+        #df['text'] = df['text'].apply(preprocessor)
         
         max_features = 100
-        X2 = tokenizer.texts_to_sequences(datos_entrada['text'].values)
+        X2 = tokenizer.texts_to_sequences(df['text'].values)
         X2 = pad_sequences(X2,maxlen=80)
         
         print(X2.shape)
