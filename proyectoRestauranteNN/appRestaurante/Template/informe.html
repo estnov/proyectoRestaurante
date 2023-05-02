@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Comentario procesado</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin-top: 50px;
+            background-color: #2c3e50;
+            color: #fff;
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    {% csrf_token %}
-    Su comentario ha sido: {{e}}
+    <h1>Comentario Procesado</h1>
+    <p style="font-size: 24px;">Su comentario ha sido: {{e}}</p>
 </body>
 
 </html>
